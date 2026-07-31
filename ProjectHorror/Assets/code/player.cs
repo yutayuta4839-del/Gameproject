@@ -6,6 +6,7 @@ public class player : MonoBehaviour
 {
     public InputActionAsset InputActions;
     private InputAction moveaction;
+    private InputAction clickaction;
 
     private Vector2 movevalue;
     private Animator moveanimator;
@@ -15,6 +16,7 @@ public class player : MonoBehaviour
     public Sprite backPlayerSprite;
     public Sprite leftPlayerSprite;
     public Sprite rightPlayerSprite;
+    bool isPlayerInRange;
 
     [SerializeField] float speed = 5;
     private SpriteRenderer playerrenderer;
@@ -24,7 +26,7 @@ public class player : MonoBehaviour
         InputActions.FindActionMap("Player").Enable();
     }
 
-    private void Disenable()
+    private void Disable()
     {
         InputActions.FindActionMap("Player").Disable();
     }
@@ -46,13 +48,13 @@ public class player : MonoBehaviour
         playerwalk();
         movement = moveaction.ReadValue<Vector2>();
 
-        Debug.Log(movement);
+
 
         if (movement.x > 0.01f)
         {
             playerrenderer.sprite = rightPlayerSprite;
         }
-        else if(movement.x < -0.01f)
+        else if (movement.x < -0.01f)
         {
             playerrenderer.sprite = leftPlayerSprite;
         }
@@ -61,19 +63,46 @@ public class player : MonoBehaviour
         {
             playerrenderer.sprite = backPlayerSprite;
         }
-        else if(movement.y < -0.01f)
+        else if (movement.y < -0.01f)
         {
             playerrenderer.sprite = NormalSprite;
         }
 
-       
-    }
+        if(Mouse.current.leftButton.wasPressedThisFrame)
+        {
+            if (isPlayerInRange)
+            {
 
+                Debug.Log("osare");
+                
+            }
+        }
+
+
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("NPC"))
+        {
+            isPlayerInRange = true;
+            Debug.Log("NPCに近づきました。クリックすると話せます。");
+            // 画面に「[クリックで話す]」などのUIを表示する処理をここに書いてもOKです
+        }
+    }
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.CompareTag("NPC"))
+        {
+            isPlayerInRange = false;
+            Debug.Log("NPCから離れました。");
+            // UIを非表示にする処理などをここに書きます
+        }
+    }
     private void playerwalk()
     {
         playerrigidbody.linearVelocity = movevalue * speed;
 
     }
 
-
+   
 }

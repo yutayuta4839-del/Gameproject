@@ -12,6 +12,7 @@ public class NPC : MonoBehaviour
         {
             Transform actionmark = collision.transform.Find("actionmark");
             actionmark.gameObject.SetActive(true);
+        
         }
     }
 
