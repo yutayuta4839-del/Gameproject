@@ -16,7 +16,7 @@ public class player : MonoBehaviour
     public Sprite backPlayerSprite;
     public Sprite leftPlayerSprite;
     public Sprite rightPlayerSprite;
-    bool isPlayerInRange;
+   
 
     [SerializeField] float speed = 5;
     private SpriteRenderer playerrenderer;
@@ -68,36 +68,9 @@ public class player : MonoBehaviour
             playerrenderer.sprite = NormalSprite;
         }
 
-        if(Mouse.current.leftButton.wasPressedThisFrame)
-        {
-            if (isPlayerInRange)
-            {
-
-                Debug.Log("osare");
-                
-            }
-        }
-
 
     }
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.CompareTag("NPC"))
-        {
-            isPlayerInRange = true;
-            Debug.Log("NPCに近づきました。クリックすると話せます。");
-            // 画面に「[クリックで話す]」などのUIを表示する処理をここに書いてもOKです
-        }
-    }
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.CompareTag("NPC"))
-        {
-            isPlayerInRange = false;
-            Debug.Log("NPCから離れました。");
-            // UIを非表示にする処理などをここに書きます
-        }
-    }
+   
     private void playerwalk()
     {
         playerrigidbody.linearVelocity = movevalue * speed;
