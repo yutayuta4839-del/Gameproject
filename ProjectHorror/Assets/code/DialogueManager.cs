@@ -8,11 +8,14 @@ public class DialogueManager : MonoBehaviour
 {
     [Header("UI要素")]
     public GameObject dialoguePanel;
+    public GameObject nametext;
+    public GameObject sentence;
     public TextMeshProUGUI nameText;
     public TextMeshProUGUI sentenceText;
+    
 
     public static DialogueManager Instance { get; private set; } //シングルトンパターン
-    private bool isDialogueRunning = false;
+    public bool isDialogueRunning = false;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Awake()
@@ -26,27 +29,37 @@ public class DialogueManager : MonoBehaviour
     {
        
         isDialogueRunning = true;
+
         dialoguePanel.SetActive(true);
+        nametext.SetActive(true);
+        sentence.SetActive(true);
+
         nameText.text = data.charname;
 
         foreach (string sentence in data.sentences)
         {
             sentenceText.text = sentence;
             Debug.Log(sentence);
-            await WaitForClickAsync();
+            await WaitClick();
         }
+
+        await UniTask.Delay(100);
 
         dialoguePanel.SetActive(false);
+        nametext.SetActive(false);
+        sentence.SetActive(false);
+        nameText.text = "";
+        sentenceText.text = "";
         isDialogueRunning = false;
+      
     }
 
-    private async UniTask WaitForClickAsync()
+    private async UniTask WaitClick()
     {
-        await UniTask.Delay(System.TimeSpan.FromSeconds(0.8f));
-        if (Mouse.current.leftButton.isPressed)
-        {
-            await UniTask.Yield();
-        }
+        await UniTask.Delay(300);
+        await UniTask.WaitUntil(() => Mouse.current.leftButton.wasPressedThisFrame);
+
+       
     }
 }
 

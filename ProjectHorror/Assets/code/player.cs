@@ -16,10 +16,12 @@ public class player : MonoBehaviour
     public Sprite backPlayerSprite;
     public Sprite leftPlayerSprite;
     public Sprite rightPlayerSprite;
-   
+    private GameObject dialogueobject;
+    private DialogueManager dialogueManager;
 
     [SerializeField] float speed = 5;
     private SpriteRenderer playerrenderer;
+   
 
     private void OnEnable()
     {
@@ -36,6 +38,9 @@ public class player : MonoBehaviour
         moveaction = InputSystem.actions.FindAction("Move");
         moveanimator = GetComponent<Animator>();
 
+        dialogueobject = GameObject.Find("DialogueManager");
+        dialogueManager = dialogueobject.GetComponent<DialogueManager>();
+
         moveanimator = GetComponent<Animator>();
         playerrigidbody = GetComponent<Rigidbody2D>();
 
@@ -44,11 +49,12 @@ public class player : MonoBehaviour
 
     private void Update()
     {
-        movevalue = moveaction.ReadValue<Vector2>();
-        playerwalk();
-        movement = moveaction.ReadValue<Vector2>();
-
-
+        if(!dialogueManager.isDialogueRunning)
+        {
+            movevalue = moveaction.ReadValue<Vector2>();
+            playerwalk();
+            movement = moveaction.ReadValue<Vector2>();
+        }
 
         if (movement.x > 0.01f)
         {

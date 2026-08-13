@@ -10,11 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 082fb86c64174f44c9db4046cc980553, type: 3}
-  m_Name: thannkyou
+  m_Name: second; say dontmind
   m_EditorClassIdentifier: Assembly-CSharp::DialogueData
-  charname: hiroto
+  charname: Hahaha
   sentences:
-  - hello
-  - thank you
+  - dontmind
   charicons:
   - {fileID: 4030039932886257448, guid: 5680ef27fa54ea541807828bee8ec261, type: 3}
