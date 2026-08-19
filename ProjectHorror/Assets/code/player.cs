@@ -35,6 +35,8 @@ public class player : MonoBehaviour
 
     private void Awake()
     {
+        dialogueManager = DialogueManager.Instance;
+
         moveaction = InputSystem.actions.FindAction("Move");
         moveanimator = GetComponent<Animator>();
 
@@ -47,14 +49,19 @@ public class player : MonoBehaviour
          playerrenderer = GetComponent<SpriteRenderer>();
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
-        if(!dialogueManager.isDialogueRunning)
-        {
+        
             movevalue = moveaction.ReadValue<Vector2>();
             playerwalk();
             movement = moveaction.ReadValue<Vector2>();
-        }
+        
+      
+         
+        
+        
+
+
 
         if (movement.x > 0.01f)
         {

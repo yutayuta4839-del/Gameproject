@@ -2,65 +2,163 @@ using Unity.VisualScripting;
 using UnityEngine;
 using Cysharp.Threading.Tasks;
 using UnityEngine.InputSystem;
+using System.Threading;
 
-public class NPC : MonoBehaviour
+public class NPC : MonoBehaviour, IInteractable
 {
     public BoxCollider2D Dialoguebox;
-    
+
     public bool isPlayerInRange;
     private GameObject dialogueobject;
-    private DialogueManager dialogueManager;
-    public DialogueData firstDialogueData;
-    public DialogueData secondDialogueData;
+    private DialogueManager dialogueUI;
+    public DialogueData DialogueData;
+    private int dialogueindex;
+   
 
-    private DialogueData DialogueData;
+    public bool isDialogueRunning = false;
+    private bool istyping = false;
 
 
-    private int dialoguecount = 0;
+
 
     private void Start()
     {
         dialogueobject = GameObject.Find("DialogueManager");
-        dialogueManager = dialogueobject.GetComponent<DialogueManager>();
+        dialogueUI = DialogueManager.Instance;
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    public bool CanInteract()
     {
-        if (collision.CompareTag("Player"))
+        return !isDialogueRunning;
+    }
+
+    public async UniTask Interact()
+    {
+        if (DialogueData == null)//そしてpauseしていて、!dialoguerunnningな場合...
         {
-            isPlayerInRange = true;
-          
-            if (isPlayerInRange)
+            return;
+        }
+
+        if (isDialogueRunning)
+        {
+            await NextLine();
+        }
+        else
+        {
+            await StartDialogue();
+        }
+
+        if (istyping)
+        {
+           
+        }
+
+
+    }
+
+    private async UniTask StartDialogue()
+    {
+        isDialogueRunning = true;
+
+        dialogueUI.giveinfotoNPC(DialogueData.npcname);//あとでspriteの変更も行う
+        dialogueUI.ShowDialolgueUI(true);
+        //そこにPauseControllerのpause関数とかを入れたりする。
+        await DisplaycurrentLine();
+
+
+
+
+    }
+
+    async UniTask NextLine()
+    {
+
+        dialogueUI.Clearchoices();
+
+        if (DialogueData.EndDialogueLines.Length > dialogueindex && DialogueData.EndDialogueLines[dialogueindex])
+        {
+            Enddialogue();
+            return;
+        }
+
+        foreach (DialogueChoice dialogueChoice in DialogueData.choices)
+        {
+            if (dialogueChoice.dialogueindex == dialogueindex)
             {
-                Transform actionmark = collision.transform.Find("actionmark");
-                actionmark.gameObject.SetActive(true);
+                Displaychoices(dialogueChoice);
+                return;
             }
+        }
+
+
+        if (dialogueindex + 1 < DialogueData.DialogueLines.Length)
+        {
+            ++dialogueindex;
+
+            await DisplaycurrentLine();
+        }
+        else
+        {
+            Enddialogue();
         }
     }
 
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        isPlayerInRange = false;
-        Transform actionmark = collision.transform.Find("actionmark");
-        actionmark.gameObject.SetActive(false);
-    }
 
-    private async void Update()
+
+    private async UniTask TypeLine()
     {
-        if (isPlayerInRange && Mouse.current.leftButton.wasPressedThisFrame && !dialogueManager.isDialogueRunning)
+        istyping = true;
+
+        dialogueUI.SetDialoguetext("");
+
+        foreach (char letter in DialogueData.DialogueLines[dialogueindex])
         {
-            switch(dialoguecount)
-            {
-                case 0:
-                    DialogueData = firstDialogueData;
-                    dialoguecount++;
-                    break;
-                case 1:
-                    DialogueData = secondDialogueData;
-                    break;
-            }
-            await DialogueManager.Instance.StartDialogue(DialogueData);        
+            dialogueUI.SetDialoguetext(dialogueUI.sentenceText.text += letter);
+            Debug.Log(dialogueUI.sentenceText.text);
+            await UniTask.Delay(60);
+
         }
+        istyping = false;
 
     }
+
+    private void Enddialogue()
+    {
+        
+
+        isDialogueRunning = false;
+        dialogueUI.SetDialoguetext("");
+        dialogueUI.ShowDialolgueUI(false);
+        dialogueUI.Clearchoices();
+        //Pause解除関数
+
+
+    }
+
+    void Displaychoices(DialogueChoice choice)
+    {
+        for (int i = 0; i < choice.choices.Length; i++)
+        {
+            int nextindex = choice.nextdialogueindexs[i];
+            dialogueUI.CreateChocieButton(choice.choices[i], () => Chooseoption(nextindex));
+        }
+    }
+
+    async void Chooseoption(int nextidex)
+    {
+        dialogueindex = nextidex;
+        dialogueUI.Clearchoices();
+        await DisplaycurrentLine();
+        if (DialogueData.EndDialogueLines.Length > dialogueindex && DialogueData.EndDialogueLines[dialogueindex])
+        {
+            Enddialogue();
+        }
+       
+    }
+
+    async UniTask DisplaycurrentLine()
+    {
+        await TypeLine();
+    }
+   
 }

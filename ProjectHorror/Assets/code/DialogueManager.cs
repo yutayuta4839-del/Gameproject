@@ -3,19 +3,21 @@ using UnityEngine.UI;
 using Cysharp.Threading.Tasks;
 using UnityEngine.InputSystem;
 using TMPro;
+using UnityEditor.Animations;
 
 public class DialogueManager : MonoBehaviour
 {
     [Header("UI要素")]
     public GameObject dialoguePanel;
     public GameObject nametext;
-    public GameObject sentence;
+    public GameObject sentenceobj;
     public TextMeshProUGUI nameText;
     public TextMeshProUGUI sentenceText;
-    
+    public Transform ChoiceContainer;
+    public GameObject ChoiceButtonprefab;
 
     public static DialogueManager Instance { get; private set; } //シングルトンパターン
-    public bool isDialogueRunning = false;
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Awake()
@@ -25,41 +27,37 @@ public class DialogueManager : MonoBehaviour
 
         if (dialoguePanel != null) dialoguePanel.SetActive(false);
     }
-    public async UniTask StartDialogue(DialogueData data)
+
+
+
+    public void ShowDialolgueUI(bool show)
     {
-       
-        isDialogueRunning = true;
-
-        dialoguePanel.SetActive(true);
-        nametext.SetActive(true);
-        sentence.SetActive(true);
-
-        nameText.text = data.charname;
-
-        foreach (string sentence in data.sentences)
-        {
-            sentenceText.text = sentence;
-            Debug.Log(sentence);
-            await WaitClick();
-        }
-
-        await UniTask.Delay(100);
-
-        dialoguePanel.SetActive(false);
-        nametext.SetActive(false);
-        sentence.SetActive(false);
-        nameText.text = "";
-        sentenceText.text = "";
-        isDialogueRunning = false;
-      
+        dialoguePanel.SetActive(show);
     }
 
-    private async UniTask WaitClick()
+    public void giveinfotoNPC(string Charaname)//あとでspriteの変数も追加
     {
-        await UniTask.Delay(300);
-        await UniTask.WaitUntil(() => Mouse.current.leftButton.wasPressedThisFrame);
+        nameText.text = Charaname;
+        //あとでスプライトの変更の設定も加ええる
+    }
 
-       
+    public void SetDialoguetext(string text)
+    {
+        sentenceText.text = text;
+    }
+
+
+    public void Clearchoices()
+    {
+        foreach (Transform child in ChoiceContainer) Destroy(child.gameObject);
+    }
+
+    public GameObject CreateChocieButton(string choiceText, UnityEngine.Events.UnityAction onClick)
+    {
+        GameObject choiceButton = Instantiate(ChoiceButtonprefab, ChoiceContainer);
+        choiceButton.GetComponentInChildren<TMP_Text>().text = choiceText;
+        choiceButton.GetComponent<Button>().onClick.AddListener(onClick);
+        return choiceButton;
     }
 }
 
