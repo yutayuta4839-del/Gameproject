@@ -10,7 +10,7 @@ public class player : MonoBehaviour
 
     private Vector2 movevalue;
     private Animator moveanimator;
-    private Rigidbody2D playerrigidbody;
+    private Rigidbody2D rb2D;
     private Vector2 movement;
     public Sprite NormalSprite;
     public Sprite backPlayerSprite;
@@ -21,14 +21,14 @@ public class player : MonoBehaviour
 
     [SerializeField] float speed = 5;
     private SpriteRenderer playerrenderer;
-   
+
 
     private void OnEnable()
     {
         InputActions.FindActionMap("Player").Enable();
     }
 
-    private void Disable()
+    private void OnDisable()
     {
         InputActions.FindActionMap("Player").Disable();
     }
@@ -44,24 +44,38 @@ public class player : MonoBehaviour
         dialogueManager = dialogueobject.GetComponent<DialogueManager>();
 
         moveanimator = GetComponent<Animator>();
-        playerrigidbody = GetComponent<Rigidbody2D>();
+        rb2D = GetComponent<Rigidbody2D>();
 
-         playerrenderer = GetComponent<SpriteRenderer>();
+        playerrenderer = GetComponent<SpriteRenderer>();
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
-        
-            movevalue = moveaction.ReadValue<Vector2>();
-            playerwalk();
-            movement = moveaction.ReadValue<Vector2>();
-        
+
+        if (PauseController.IsGamePosed)
+        {
+            Debug.Log("停止した");
+            rb2D.linearVelocity = Vector2.zero;
+            //アニメーションwalkingをfalseにする。
+            return;
+        }
       
-         
-        
-        
+        playerwalk();
+        //そしてこの下に、速度が0.001以上あるとアニメーションを再開するようにする。magnitudeを使う。
 
 
+
+    }
+
+    private void playerwalk()
+    {
+        movement = moveaction.ReadValue<Vector2>();
+        rb2D.linearVelocity = movement * speed;
+        ChangeAnimation();
+    }
+
+    private void ChangeAnimation()// I change that sprite to animation
+    {
 
         if (movement.x > 0.01f)
         {
@@ -80,15 +94,6 @@ public class player : MonoBehaviour
         {
             playerrenderer.sprite = NormalSprite;
         }
-
-
-    }
-   
-    private void playerwalk()
-    {
-        playerrigidbody.linearVelocity = movevalue * speed;
-
     }
 
-   
 }

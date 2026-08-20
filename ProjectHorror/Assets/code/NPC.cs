@@ -3,6 +3,7 @@ using UnityEngine;
 using Cysharp.Threading.Tasks;
 using UnityEngine.InputSystem;
 using System.Threading;
+using Unity.VisualScripting.Antlr3.Runtime;
 
 public class NPC : MonoBehaviour, IInteractable
 {
@@ -13,7 +14,7 @@ public class NPC : MonoBehaviour, IInteractable
     private DialogueManager dialogueUI;
     public DialogueData DialogueData;
     private int dialogueindex;
-   
+    private CancellationTokenSource _cts;
 
     public bool isDialogueRunning = false;
     private bool istyping = false;
@@ -25,6 +26,11 @@ public class NPC : MonoBehaviour, IInteractable
     {
         dialogueobject = GameObject.Find("DialogueManager");
         dialogueUI = DialogueManager.Instance;
+    }
+
+    void Update()
+    {
+        PauseController.SetPause(isDialogueRunning);
     }
 
     public bool CanInteract()
@@ -46,19 +52,15 @@ public class NPC : MonoBehaviour, IInteractable
         else
         {
             await StartDialogue();
-        }
-
-        if (istyping)
-        {
-           
-        }
-
-
+        }                    
+            
+        
     }
-
-    private async UniTask StartDialogue()
+    async UniTask StartDialogue()
     {
         isDialogueRunning = true;
+        
+        dialogueindex = 0;
 
         dialogueUI.giveinfotoNPC(DialogueData.npcname);//あとでspriteの変更も行う
         dialogueUI.ShowDialolgueUI(true);
@@ -72,9 +74,14 @@ public class NPC : MonoBehaviour, IInteractable
 
     async UniTask NextLine()
     {
-
+        
         dialogueUI.Clearchoices();
 
+        if (istyping)
+        {
+            _cts?.Cancel();
+            return;
+        }
         if (DialogueData.EndDialogueLines.Length > dialogueindex && DialogueData.EndDialogueLines[dialogueindex])
         {
             Enddialogue();
@@ -101,30 +108,45 @@ public class NPC : MonoBehaviour, IInteractable
         {
             Enddialogue();
         }
+
+
     }
 
 
 
-    private async UniTask TypeLine()
+    async UniTask TypeLine(CancellationToken token)
     {
         istyping = true;
-
+        string fullText = DialogueData.DialogueLines[dialogueindex];
         dialogueUI.SetDialoguetext("");
 
-        foreach (char letter in DialogueData.DialogueLines[dialogueindex])
+        try
         {
-            dialogueUI.SetDialoguetext(dialogueUI.sentenceText.text += letter);
-            Debug.Log(dialogueUI.sentenceText.text);
-            await UniTask.Delay(60);
+            
+            foreach (char letter in fullText)
+            {
+                dialogueUI.sentenceText.text += letter;
+                dialogueUI.SetDialoguetext(dialogueUI.sentenceText.text);
 
+                Debug.Log(dialogueUI.sentenceText.text);
+                await UniTask.Delay(60, cancellationToken: token);
+
+            }
+            istyping = false;
         }
-        istyping = false;
-
+        catch (System.OperationCanceledException)
+        {
+            dialogueUI.SetDialoguetext(fullText);
+        }
+        finally
+        {
+            istyping = false;
+        }
     }
 
-    private void Enddialogue()
+    void Enddialogue()
     {
-        
+
 
         isDialogueRunning = false;
         dialogueUI.SetDialoguetext("");
@@ -137,6 +159,7 @@ public class NPC : MonoBehaviour, IInteractable
 
     void Displaychoices(DialogueChoice choice)
     {
+
         for (int i = 0; i < choice.choices.Length; i++)
         {
             int nextindex = choice.nextdialogueindexs[i];
@@ -153,12 +176,24 @@ public class NPC : MonoBehaviour, IInteractable
         {
             Enddialogue();
         }
-       
+
     }
 
     async UniTask DisplaycurrentLine()
     {
-        await TypeLine();
+        if (_cts != null)
+        {
+            _cts.Cancel();
+            _cts.Dispose();
+        }
+        _cts = new CancellationTokenSource();
+
+        await TypeLine(_cts.Token);
     }
-   
+
+    private void OnDestroy()
+    {
+        // オブジェクト破棄時のメモリリーク対策
+        _cts?.Dispose();
+    }
 }

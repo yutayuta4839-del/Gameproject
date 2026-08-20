@@ -21,7 +21,7 @@ MonoBehaviour:
   - Have a nice day!
   - Oh..take a rest...
   - you should go back to your home
-  EndDialogueLines: 
+  EndDialogueLines: 000000010001
   typingspeed: 0.05
   choices:
   - dialogueindex: 1
