@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 082fb86c64174f44c9db4046cc980553, type: 3}
-  m_Name: NewDialogueData
+  m_Name: yoro!
   m_EditorClassIdentifier: Assembly-CSharp::DialogueData
   npcname: haha
   charicons: {fileID: 0}
@@ -21,7 +21,11 @@ MonoBehaviour:
   - Have a nice day!
   - Oh..take a rest...
   - you should go back to your home
-  EndDialogueLines: 000000010001
+  - who are you?
+  - are  you really human?
+  - what are you saying?
+  - well nice to meet you
+  EndDialogueLines: 00000000000000000001
   typingspeed: 0.05
   choices:
   - dialogueindex: 1
@@ -29,3 +33,13 @@ MonoBehaviour:
     - 'Iam good '
     - I get tired
     nextdialogueindexs: 0200000004000000
+  - dialogueindex: 6
+    choices:
+    - I am human
+    - I am robot
+    nextdialogueindexs: 0700000008000000
+  jumps:
+  - fromIndex: 3
+    toIndex: 6
+  - fromIndex: 7
+    toIndex: 9
