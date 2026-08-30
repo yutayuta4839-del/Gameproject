@@ -19,6 +19,7 @@ public class player : MonoBehaviour
     private GameObject dialogueobject;
     private DialogueManager dialogueManager;
     public Transform Flashlight;
+    public static player Instance;
 
     [SerializeField] float speed = 5;
     private SpriteRenderer playerrenderer;
@@ -36,6 +37,16 @@ public class player : MonoBehaviour
 
     private void Awake()
     {
+        if (Instance != null && Instance != this)
+        {
+            // ‚·‚Å‚É‘¶İ‚·‚éê‡‚Í©•ª‚ğ”jŠü(d•¡–h~)
+            Destroy(gameObject);
+            return;
+        }
+
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
+
         dialogueManager = DialogueManager.Instance;
 
         moveaction = InputSystem.actions.FindAction("Move");
