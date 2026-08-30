@@ -116,14 +116,14 @@ RectTransform:
   m_GameObject: {fileID: 655194385733961472}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 4, y: 4, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3202381354638499254}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -422, y: -259}
+  m_AnchoredPosition: {x: -362, y: -228}
   m_SizeDelta: {x: 145.7896, y: 137.204}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1199690660216853919
@@ -154,7 +154,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -65880044, guid: 14b563dea58eb6d47b4000c90c177c62, type: 3}
+  m_Sprite: {fileID: -230449131, guid: ff2f12d0c1d616742a807c701855de77, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -276,7 +276,7 @@ GameObject:
   - component: {fileID: 3892806084712917763}
   - component: {fileID: 8627088868281389746}
   m_Layer: 5
-  m_Name: sampleclickgamebackground
+  m_Name: gameBg.test
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -325,7 +325,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 0.4433962, g: 0.42875576, b: 0.42875576, a: 1}
+  m_Color: {r: 0.40236738, g: 0.40791926, b: 0.6226415, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

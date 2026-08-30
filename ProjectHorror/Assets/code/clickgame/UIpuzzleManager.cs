@@ -1,9 +1,9 @@
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
-public class UIpuzzleManager : MonoBehaviour//puzzle‚ğŒÄ‚Ño‚·ƒNƒ‰ƒXB‘¼‚ÌƒNƒ‰ƒX‚©‚çAƒpƒYƒ‹‚ğn‚ß‚é‚©‚Ì”½‰‚ğó‚¯æ‚éB
+public class UIpuzzleManager : MonoBehaviour//puzzleï¿½ï¿½ï¿½Ä‚Ñoï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½Xï¿½Bï¿½ï¿½ï¿½ÌƒNï¿½ï¿½ï¿½Xï¿½ï¿½ï¿½ï¿½Aï¿½pï¿½Yï¿½ï¿½ï¿½ï¿½ï¿½nï¿½ß‚é‚©ï¿½Ì”ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ó‚¯ï¿½ï¿½B
 {
-    private GameObject puzzleprefab; //puzzle‚Ìprefab”z—ñì‚Á‚ÄA‰½ŒÂì‚é‚©‚àŒˆ‚ß‚éB
+    private GameObject puzzleprefab; //puzzleï¿½ï¿½prefabï¿½zï¿½ï¿½ï¿½ï¿½ï¿½ÄAï¿½ï¿½ï¿½Âï¿½é‚©ï¿½ï¿½ï¿½ï¿½ï¿½ß‚ï¿½B
     GameObject canvasObj;
     private RectTransform canvasrectTransform;
    
@@ -15,7 +15,7 @@ public class UIpuzzleManager : MonoBehaviour//puzzle‚ğŒÄ‚Ño‚·ƒNƒ‰ƒXB‘¼‚ÌƒNƒ‰ƒX
         if (Instance == null) Instance = this;
     }
    
-    public GameObject ShowPuzzle(GameObject backgroundprefab)@//ŒãXˆø”‚Í”Ô†‚É‚·‚éB
+    public GameObject ShowPuzzle(GameObject backgroundprefab)
     {
         canvasObj = GameObject.FindWithTag("Canvas");
         canvasrectTransform = canvasObj.GetComponent<RectTransform>();
