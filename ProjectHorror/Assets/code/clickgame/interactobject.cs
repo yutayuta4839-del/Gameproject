@@ -1,7 +1,7 @@
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
-public class interactobject : MonoBehaviour, IInteractable@// gamescene‚Ìinteract‰Â”\‚ÈƒIƒuƒWƒFƒNƒgƒNƒ‰ƒXBUIpuzzleManager‚©‚çshowUI‚È‚ñ‚©‚à‚ç‚Á‚ÄUI‚ğì‚éB
+public class interactobject : MonoBehaviour, IInteractable
 {
     public GameObject prefab;
     UIpuzzleManager puzzlemanege;
@@ -46,12 +46,12 @@ public class interactobject : MonoBehaviour, IInteractable@// gamescene‚Ìintera
     {
         ispuzzling = true;
         PauseController.RequestPause();
-        spawnedPuzzleObj = puzzlemanege.ShowPuzzle(prefab);//Œã‚Å”Ô†
+        spawnedPuzzleObj = puzzlemanege.ShowPuzzle(prefab);//ï¿½ï¿½Å”Ôï¿½
     }
 
     public void Endpuzzle()
     {
-        Debug.Log("ŒÄ‚Î‚ê‚½");
+        Debug.Log("ï¿½Ä‚Î‚ê‚½");
         ispuzzling = false;
         PauseController.ReleasePause();
         Destroy(spawnedPuzzleObj);
