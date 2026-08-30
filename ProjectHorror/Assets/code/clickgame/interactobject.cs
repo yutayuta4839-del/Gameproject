@@ -13,11 +13,7 @@ public class interactobject : MonoBehaviour, IInteractable
         puzzlemanege = UIpuzzleManager.Instance;
     }
 
-    void Update()
-    {
-       
-       
-    }
+   
 
 
     public bool CanInteract()
@@ -51,7 +47,7 @@ public class interactobject : MonoBehaviour, IInteractable
 
     public void Endpuzzle()
     {
-        Debug.Log("�Ă΂ꂽ");
+        
         ispuzzling = false;
         PauseController.ReleasePause();
         Destroy(spawnedPuzzleObj);
