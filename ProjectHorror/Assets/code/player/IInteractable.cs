@@ -1,8 +1,8 @@
-using Cysharp.Threading.Tasks;
-public interface IInteractable
+using UnityEngine;
+
+public interface ISearchInteractable
 {
-    UniTask Interact();
+    void SearchInteract();
 
     bool CanInteract();
-
 }

@@ -1,12 +1,12 @@
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
-public class UIpuzzleManager : MonoBehaviour//puzzle���Ăяo���N���X�B���̃N���X����A�p�Y�����n�߂邩�̔������󂯎��B
+public class UIpuzzleManager : MonoBehaviour
 {
-    private GameObject puzzleprefab; //puzzle��prefab�z�����āA����邩�����߂�B
+    private GameObject puzzleprefab;
     GameObject canvasObj;
     private RectTransform canvasrectTransform;
-   
+    
 
     public static UIpuzzleManager Instance { get; private set; }
 

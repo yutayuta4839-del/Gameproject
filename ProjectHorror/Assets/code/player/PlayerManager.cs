@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 
-public class player : MonoBehaviour
+public class playerManager : MonoBehaviour
 {
     public InputActionAsset InputActions;
     private InputAction moveaction;
@@ -19,7 +19,7 @@ public class player : MonoBehaviour
     private GameObject dialogueobject;
     private DialogueManager dialogueManager;
     public Transform Flashlight;
-    public static player Instance;
+    public static playerManager Instance;
 
     [SerializeField] float speed = 5;
     private SpriteRenderer playerrenderer;

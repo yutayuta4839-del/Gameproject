@@ -23,8 +23,8 @@ public class InteractionDetector : MonoBehaviour
     public void OnInteract(InputAction.CallbackContext context)
     {
         if (context.performed)
-        {  //InteractableinRangeがnull出なかったら...
-            InteractableinRange?.Interact();
+        {  
+            InteractableinRange?.Interact();　　//すべてのIInteractableのついたもにインタラクトする。InteractableinRangeが、IInteractable型なため
         }
     }
 

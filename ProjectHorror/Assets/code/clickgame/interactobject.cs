@@ -1,56 +1,41 @@
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
-public class interactobject : MonoBehaviour, IInteractable
+public class interactobject : MonoBehaviour, ISearchInteractable
 {
-    public GameObject prefab;
-    UIpuzzleManager puzzlemanege;
-    private GameObject spawnedPuzzleObj;
-    [SerializeField] public bool ispuzzling = false;
 
-    void Awake()
+    private bool isinteractingobj;
+
+    public virtual bool CanInteract()       //playerclass‚Ì“ü—ÍŒnˆ—‚É‘Î‚µ‚ÄAƒCƒ“ƒ^ƒ‰ƒNƒg‚Å‚«‚½‚©‚ğ•Ô‚·B
     {
-        puzzlemanege = UIpuzzleManager.Instance;
+        return !isinteractingobj; //‰¼’u‚«
     }
 
-   
-
-
-    public bool CanInteract()
+    public virtual void SearchInteract()
     {
-        return !ispuzzling;
-    }
 
-    public UniTask Interact()
-    {
-       
-
-        if (ispuzzling)
+        if (isinteractingobj)
         {
-            Endpuzzle();
+            Endsearch();
         }
         else
         {
-            if (!CanInteract()) return UniTask.CompletedTask;
-            Startpuzzle();
+            Startsearch();
         }
-
-        return UniTask.CompletedTask;
     }
 
-    public void Startpuzzle()
+    public void Startsearch()
     {
-        ispuzzling = true;
-        PauseController.RequestPause();
-        spawnedPuzzleObj = puzzlemanege.ShowPuzzle(prefab);//ï¿½ï¿½Å”Ôï¿½
+        isinteractingobj = true;
+        //pausecontroller.requestpause();//Œã‚Å•Ï‚¦‚é
+        Debug.Log("’TõƒEƒBƒ“ƒhƒE‚ğoŒ»‚³‚¹‚é");
     }
 
-    public void Endpuzzle()
+    public void Endsearch()
     {
-        
-        ispuzzling = false;
-        PauseController.ReleasePause();
-        Destroy(spawnedPuzzleObj);
+        isinteractingobj = false;
+        //pausecontroller.releasepause();//Œã‚Å•Ï‚¦‚é
+        Debug.Log("o‚µ‚½’TõƒEƒBƒ“ƒhƒE‚ğ”j‰ó‚·‚é");
     }
 
 
