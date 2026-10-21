@@ -12,13 +12,16 @@ public class UIpuzzleManager : MonoBehaviour
 
     private void Awake()
     {
-        if (Instance == null) Instance = this;
+        if (Instance == null)
+        {
+            canvasObj = GameObject.FindWithTag("Canvas");
+        }
+Instance = this;
     }
    
     public GameObject ShowPuzzle(GameObject backgroundprefab)
     {
-        canvasObj = GameObject.FindWithTag("Canvas");
-        canvasrectTransform = canvasObj.GetComponent<RectTransform>();
+        
         GameObject newobj = Instantiate(backgroundprefab, canvasrectTransform);
         return newobj;
     }

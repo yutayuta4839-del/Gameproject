@@ -17,14 +17,13 @@ public class DialogueManager : MonoBehaviour
     public Transform ChoiceContainer;
     public GameObject ChoiceButtonprefab;
 
-    public static DialogueManager Instance { get; private set; } //シングルトンパターン
+    
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Awake()
     {
-        if (Instance == null) Instance = this;
-        else Destroy(gameObject);
+        
 
         if (dialoguePanel != null) dialoguePanel.SetActive(false);
     }

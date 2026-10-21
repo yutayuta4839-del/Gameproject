@@ -47,7 +47,7 @@ public class playerManager : MonoBehaviour
         Instance = this;
         DontDestroyOnLoad(gameObject);
 
-        dialogueManager = DialogueManager.Instance;
+        //dialogueManager = DialogueManager.Instance;
 
         moveaction = InputSystem.actions.FindAction("Move");
         moveanimator = GetComponent<Animator>();

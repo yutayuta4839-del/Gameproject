@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 using System.Threading;
 using Unity.VisualScripting.Antlr3.Runtime;
 
-public class NPC : MonoBehaviour, IInteractable
+public class NPC : MonoBehaviour
 {
     public BoxCollider2D Dialoguebox;
 
@@ -25,7 +25,7 @@ public class NPC : MonoBehaviour, IInteractable
     private void Start()
     {
         dialogueobject = GameObject.Find("DialogueManager");
-        dialogueUI = DialogueManager.Instance;
+        //dialogueUI = DialogueManager.Instance;
     }
 
     

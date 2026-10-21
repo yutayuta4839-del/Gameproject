@@ -1,13 +1,15 @@
-﻿using UnityEngine;
+using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
-public class Barrel : interactobject
+public class Barrel : interactobject , Iwindowprovider  //Barrelobject�͎����̓����蔻�肾��������
 {
+    [SerializeField] GameObject ObjectSearchwindow;
+    public GameObject Window => ObjectSearchwindow;
 
-    //本当はどんなウィンドウを出現させるか定義したい。
+    //public Image Window  �ȏ�̕��͈ȉ��̏ȗ�
+    //{
+    //    get { return ObjectSearchwindow; }
+    //}
 
-    private void Update()
-    {
-        //もし〜なら...　入力系の処理を持ってくる。　
-        SearchInteract();
-    }
 }

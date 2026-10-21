@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class InteractNPC : MonoBehaviour, ISearchInteractable, IDialogueableInteractable
 {
@@ -11,11 +12,10 @@ public class InteractNPC : MonoBehaviour, ISearchInteractable, IDialogueableInte
     //------------------------------------------------
     public virtual bool CanInteract()    //playerclassの入力系処理に対して、インタラクトできたかを返す
     {
-
         return isinteractingnpc;　//仮置き
     }
 
-    public virtual void SearchInteract()
+    public virtual void SearchInteract(GameObject NPCSearchwindow)
     {
 
     }
@@ -32,4 +32,6 @@ public class InteractNPC : MonoBehaviour, ISearchInteractable, IDialogueableInte
     {
 
     }
+
+
 }
