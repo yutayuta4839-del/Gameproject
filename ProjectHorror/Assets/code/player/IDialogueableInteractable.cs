@@ -4,7 +4,7 @@ public interface IDialogueableInteractable
 {
     bool CanDialogue();
 
-    void DialogueInteract();
+    void DialogueInteract(DialogueData Dialoguedata);
 
-
+   
 }

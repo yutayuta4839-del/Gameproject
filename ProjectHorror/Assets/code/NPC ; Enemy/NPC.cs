@@ -1,211 +1,167 @@
-using Unity.VisualScripting;
-using UnityEngine;
-using Cysharp.Threading.Tasks;
-using UnityEngine.InputSystem;
-using System.Threading;
-using Unity.VisualScripting.Antlr3.Runtime;
+//using Unity.VisualScripting;
+//using UnityEngine;
+//using Cysharp.Threading.Tasks;
+//using UnityEngine.InputSystem;
+//using System.Threading;
+//using Unity.VisualScripting.Antlr3.Runtime;
 
-public class NPC : MonoBehaviour
-{
-    public BoxCollider2D Dialoguebox;
+//public class NPC : MonoBehaviour
+//{
+//    public BoxCollider2D Dialoguebox;
 
-    public bool isPlayerInRange;
-    private GameObject dialogueobject;
-    private DialogueManager dialogueUI;
-    public DialogueData DialogueData;
-    private int dialogueindex;
-    private CancellationTokenSource _cts;
+//    public bool isPlayerInRange;
+//    private GameObject dialogueobject;
+//    private DialogueManager dialogueUI;
+//    //public DialogueData DialogueData;
+//    private int dialogueindex;
+//    //private CancellationTokenSource _cts;
 
-    public bool isDialogueRunning = false;
-    private bool istyping = false;
-
-
+//    public bool isDialogueRunning = false;
+//    private bool istyping = false;
 
 
-    private void Start()
-    {
-        dialogueobject = GameObject.Find("DialogueManager");
-        //dialogueUI = DialogueManager.Instance;
-    }
 
+
+//    private void Start()
+//    {
+//        dialogueobject = GameObject.Find("DialogueManager");
+//        //dialogueUI = DialogueManager.Instance;
+//    }
+   
+         
+            
+        
     
+//    void StartDialogue(DialogueData dialoguedata)
+//    {
+//        //isDialogueRunning = true;
+//        // NPCの会話開始時
+//        PauseController.RequestPause();
 
-    public bool CanInteract()
-    {
-        return !isDialogueRunning;
-    }
+//        // NPCの会話終了時
+        
+//        dialogueindex = 0;
 
-    public async UniTask Interact()
-    {
-        if (DialogueData == null)//そしてpauseしていて、!dialoguerunnningな場合...
-        {
-            return;
-        }
+//        dialogueUI.giveinfotoNPC(dialoguedata);//あとでspriteの変更も行う
+//        dialogueUI.ShowDialolgueUI(true);
+//        //そこにPauseControllerのpause関数とかを入れたりする。
+//        DisplaycurrentLine();
+//    }
 
-        if (isDialogueRunning)
-        {
-            await NextLine();
-        }
-        else
-        {
-            await StartDialogue();
-        }                    
+//    void NextLine(DialogueData dialoguedata)
+//    {
+        
+//        dialogueUI.Clearchoices();
+
+        
+//        if (dialoguedata.EndDialogueLines.Length > dialogueindex && dialoguedata.EndDialogueLines[dialogueindex])
+//        {
+//            Enddialogue();
+//            return;
+//        }
+
+//        foreach (DialogueChoice dialogueChoice in dialoguedata.choices)
+//        {
+//            if (dialogueChoice.dialogueindex == dialogueindex)
+//            {
+//                Displaychoices(dialogueChoice);
+//                return;
+//            }
+//        }
+
+//        foreach (DialogueJump jump in dialoguedata.jumps)
+//        {
+//            if (jump.fromIndex == dialogueindex)
+//            {
+//                dialogueindex = jump.toIndex;
+//                 DisplaycurrentLine();
+//                return;
+//            }
+//        }
+
+
+//        if (dialogueindex + 1 < dialoguedata.DialogueLines.Length)
+//        {
+//            ++dialogueindex;
+
+//             DisplaycurrentLine();
+//        }
+//        else
+//        {
+//            Enddialogue();
+//        }
+//    }
+
+
+
+//    void TypeLine(DialogueData dialoguedata)
+//    {
+//        istyping = true;
+//        string fullText = dialoguedata.DialogueLines[dialogueindex];
+//        dialogueUI.SetDialoguetext("");
+
+//        try
+//        {
             
-        
-    }
-    async UniTask StartDialogue()
-    {
-        isDialogueRunning = true;
-        // NPCの会話開始時
-        PauseController.RequestPause();
+//            foreach (char letter in fullText)
+//            {
+//                dialogueUI.sentenceText.text += letter;
+//                dialogueUI.SetDialoguetext(dialogueUI.sentenceText.text);
 
-        // NPCの会話終了時
-        
-        dialogueindex = 0;
+//                Debug.Log(dialogueUI.sentenceText.text);
+//           　   //非同期時間を経過させる
 
-        dialogueUI.giveinfotoNPC(DialogueData.npcname);//あとでspriteの変更も行う
-        dialogueUI.ShowDialolgueUI(true);
-        //そこにPauseControllerのpause関数とかを入れたりする。
-        await DisplaycurrentLine();
+//            }
+//            istyping = false;
+//        }
+//        catch (System.OperationCanceledException)
+//        {
+//            dialogueUI.SetDialoguetext(fullText);
+//        }
+//        finally
+//        {
+//            istyping = false;
+//        }
+//    }
 
-
-
-
-    }
-
-    async UniTask NextLine()
-    {
-        
-        dialogueUI.Clearchoices();
-
-        if (istyping)
-        {
-            _cts?.Cancel();
-            return;
-        }
-        if (DialogueData.EndDialogueLines.Length > dialogueindex && DialogueData.EndDialogueLines[dialogueindex])
-        {
-            Enddialogue();
-            return;
-        }
-
-        foreach (DialogueChoice dialogueChoice in DialogueData.choices)
-        {
-            if (dialogueChoice.dialogueindex == dialogueindex)
-            {
-                Displaychoices(dialogueChoice);
-                return;
-            }
-        }
-
-        foreach (DialogueJump jump in DialogueData.jumps)
-        {
-            if (jump.fromIndex == dialogueindex)
-            {
-                dialogueindex = jump.toIndex;
-                await DisplaycurrentLine();
-                return;
-            }
-        }
+//    void Enddialogue()
+//    {
+//        isDialogueRunning = false;
+//        PauseController.ReleasePause();
+//        dialogueUI.SetDialoguetext("");
+//        dialogueUI.ShowDialolgueUI(false);
+//        dialogueUI.Clearchoices();
+//        //Pause解除関数
 
 
-        if (dialogueindex + 1 < DialogueData.DialogueLines.Length)
-        {
-            ++dialogueindex;
+//    }
 
-            await DisplaycurrentLine();
-        }
-        else
-        {
-            Enddialogue();
-        }
+//    void Displaychoices(DialogueChoice choice)
+//    {
 
+//        for (int i = 0; i < choice.choices.Length; i++)
+//        {
+//            int nextindex = choice.nextdialogueindexs[i];
+//            dialogueUI.CreateChocieButton(choice.choices[i], () => Chooseoption(nextindex,dialoguedata));
+//        }
+//    }
 
-    }
+//     void Chooseoption(int nextidex,DialogueData dialoguedata)
+//    {
+//        dialogueindex = nextidex;
+//        dialogueUI.Clearchoices();
+//         DisplaycurrentLine();
+//        if (dialoguedata.EndDialogueLines.Length > dialogueindex && dialoguedata.EndDialogueLines[dialogueindex])
+//        {
+//            Enddialogue();
+//        }
 
+//    }
 
+//    void DisplaycurrentLine()
+//    {
+//         TypeLine();
+//    }
 
-    async UniTask TypeLine(CancellationToken token)
-    {
-        istyping = true;
-        string fullText = DialogueData.DialogueLines[dialogueindex];
-        dialogueUI.SetDialoguetext("");
-
-        try
-        {
-            
-            foreach (char letter in fullText)
-            {
-                dialogueUI.sentenceText.text += letter;
-                dialogueUI.SetDialoguetext(dialogueUI.sentenceText.text);
-
-                Debug.Log(dialogueUI.sentenceText.text);
-                await UniTask.Delay(60, cancellationToken: token);
-
-            }
-            istyping = false;
-        }
-        catch (System.OperationCanceledException)
-        {
-            dialogueUI.SetDialoguetext(fullText);
-        }
-        finally
-        {
-            istyping = false;
-        }
-    }
-
-    void Enddialogue()
-    {
-
-
-        isDialogueRunning = false;
-        PauseController.ReleasePause();
-        dialogueUI.SetDialoguetext("");
-        dialogueUI.ShowDialolgueUI(false);
-        dialogueUI.Clearchoices();
-        //Pause解除関数
-
-
-    }
-
-    void Displaychoices(DialogueChoice choice)
-    {
-
-        for (int i = 0; i < choice.choices.Length; i++)
-        {
-            int nextindex = choice.nextdialogueindexs[i];
-            dialogueUI.CreateChocieButton(choice.choices[i], () => Chooseoption(nextindex));
-        }
-    }
-
-    async void Chooseoption(int nextidex)
-    {
-        dialogueindex = nextidex;
-        dialogueUI.Clearchoices();
-        await DisplaycurrentLine();
-        if (DialogueData.EndDialogueLines.Length > dialogueindex && DialogueData.EndDialogueLines[dialogueindex])
-        {
-            Enddialogue();
-        }
-
-    }
-
-    async UniTask DisplaycurrentLine()
-    {
-        if (_cts != null)
-        {
-            _cts.Cancel();
-            _cts.Dispose();
-        }
-        _cts = new CancellationTokenSource();
-
-        await TypeLine(_cts.Token);
-    }
-
-    private void OnDestroy()
-    {
-        // オブジェクト破棄時のメモリリーク対策
-        _cts?.Dispose();
-    }
-}
+   
+//}

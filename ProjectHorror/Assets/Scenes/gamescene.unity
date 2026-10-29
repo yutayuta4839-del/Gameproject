@@ -188,12 +188,12 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 1
   m_MaskInteraction: 0
-  m_Sprite: {fileID: -5096040005436525879, guid: 4c074b16fa128ef44900ae7ce213bf71, type: 3}
+  m_Sprite: {fileID: 383817070, guid: 575eda94bad32984fa4935919f2c1b1b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.19, y: 0.32}
+  m_Size: {x: 0.5, y: 0.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -209,7 +209,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 124.5, y: -16.9, z: 0}
-  m_LocalScale: {x: 1.5, y: 1.5, z: 1}
+  m_LocalScale: {x: 4, y: 4, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -275,17 +275,17 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: -0.005447954}
+  m_Offset: {x: 0.019072585, y: -0.018163204}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.96875, y: 1}
-    newSize: {x: 0.19, y: 0.32}
+    oldSize: {x: 0.5, y: 0.5}
+    newSize: {x: 0.5, y: 0.5}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.7, y: 1}
+  m_Size: {x: 0.33974266, y: 0.22862005}
   m_EdgeRadius: 0
 --- !u!114 &57270984
 MonoBehaviour:
@@ -296,13 +296,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 57270978}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0acd30fcdada4714c955db2f6ff00b60, type: 3}
+  m_Script: {fileID: 11500000, guid: 8fd4b1d39d92c1546ae80a0b1594496e, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::NPC
-  Dialoguebox: {fileID: 0}
-  isPlayerInRange: 0
-  DialogueData: {fileID: 11400000, guid: b599a0f3d87ea834d80d8bd44be4ff2e, type: 2}
-  isDialogueRunning: 0
+  m_EditorClassIdentifier: Assembly-CSharp::NPCRobot
+  dialogueUI: {fileID: 240711182}
+  typeInterval: 0.15
+  npcsearchwindow: {fileID: 4453076280231587221, guid: 6474cc765fff3414eb97b34732a877e8, type: 3}
+  dialogue: {fileID: 11400000, guid: b599a0f3d87ea834d80d8bd44be4ff2e, type: 2}
 --- !u!1 &175676149
 GameObject:
   m_ObjectHideFlags: 0
@@ -639,7 +639,7 @@ SpriteRenderer:
   m_Size: {x: 0.5, y: 0.5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_SpriteSortPoint: 0
   m_BlendShapeWeights: []
 --- !u!4 &362574749
@@ -1340,7 +1340,7 @@ Camera:
   far clip plane: 1000
   field of view: 91.4
   orthographic: 1
-  orthographic size: 5.625
+  orthographic size: 3.671875
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
@@ -1365,11 +1365,11 @@ Transform:
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 122.03, y: -19.19, z: -10}
-  m_LocalScale: {x: 0.23948824, y: 0.23190302, z: 1}
+  m_LocalPosition: {x: 0, y: 0.33333334, z: -10}
+  m_LocalScale: {x: 0.15965883, y: 0.15460202, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1485352296}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &519420033
 MonoBehaviour:
@@ -1402,7 +1402,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 72ece51f2901e7445ab60da3685d6b5f, type: 3}
   m_Name: 
@@ -1412,7 +1412,7 @@ MonoBehaviour:
   IgnoreTimeScale: 0
   WorldUpOverride: {fileID: 0}
   ChannelMask: -1
-  UpdateMethod: 2
+  UpdateMethod: 1
   BlendUpdateMethod: 1
   LensModeOverride:
     Enabled: 0
@@ -1871,7 +1871,7 @@ Transform:
   m_GameObject: {fileID: 1026162079}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.11, y: -0.18, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -29737,7 +29737,7 @@ Transform:
   m_GameObject: {fileID: 1359721525}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -0, y: -0.2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -44320,6 +44320,7 @@ GameObject:
   - component: {fileID: 1485352297}
   - component: {fileID: 1485352301}
   - component: {fileID: 1485352302}
+  - component: {fileID: 1485352303}
   m_Layer: 3
   m_Name: playersample
   m_TagString: Player
@@ -44416,6 +44417,22 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 69403770-e9a8-42bc-b270-c073e1f4017a
     m_ActionName: 'Player/Clickgame[/Mouse/leftButton]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1464764997}
+        m_TargetAssemblyTypeName: InteractionDetector, Assembly-CSharp
+        m_MethodName: OnDialogue
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 2742b79a-2cac-4477-8297-acc009df5ca3
+    m_ActionName: 'Player/Interact[/Keyboard/f]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: 
@@ -44482,7 +44499,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 3
   m_MaskInteraction: 0
-  m_Sprite: {fileID: -6652050391874590996, guid: 2c86a5095d90bf74abaa8e6b3eaf733f, type: 3}
+  m_Sprite: {fileID: 3607265550857969172, guid: ecf04d17efa67e64881d7e4ea9a3bc1d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -44510,6 +44527,7 @@ Transform:
   - {fileID: 1464764995}
   - {fileID: 734926882}
   - {fileID: 746110248}
+  - {fileID: 519420032}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &1485352297
@@ -44535,7 +44553,7 @@ Rigidbody2D:
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
@@ -44577,7 +44595,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.59375, y: 1}
+    oldSize: {x: 0.71875, y: 1.5}
     newSize: {x: 0.19, y: 0.32}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -44598,12 +44616,34 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::playerManager
   InputActions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
-  NormalSprite: {fileID: -6652050391874590996, guid: 2c86a5095d90bf74abaa8e6b3eaf733f, type: 3}
-  backPlayerSprite: {fileID: -5775161517585329585, guid: 2c86a5095d90bf74abaa8e6b3eaf733f, type: 3}
-  leftPlayerSprite: {fileID: 5412587788796787071, guid: 2c86a5095d90bf74abaa8e6b3eaf733f, type: 3}
-  rightPlayerSprite: {fileID: 4121716190170912704, guid: 2c86a5095d90bf74abaa8e6b3eaf733f, type: 3}
+  NormalSprite: {fileID: 3607265550857969172, guid: ecf04d17efa67e64881d7e4ea9a3bc1d, type: 3}
+  backPlayerSprite: {fileID: -5684377936571130825, guid: 31603994b6a3cdd4598900e77a44778b, type: 3}
+  leftPlayerSprite: {fileID: -4180234299627058512, guid: 6cc3ff106633f584eb05b7635e3eab04, type: 3}
+  rightPlayerSprite: {fileID: 7274112090462849776, guid: 94a764267ff151a4fa011bed2855b3c3, type: 3}
   Flashlight: {fileID: 746110248}
   speed: 5
+--- !u!95 &1485352303
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1485352292}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: d1f9e1ea7e8d8bf42ac5c6646a1a8076, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1532929372
 GameObject:
   m_ObjectHideFlags: 0
@@ -45427,4 +45467,3 @@ SceneRoots:
   - {fileID: 2018771829}
   - {fileID: 1750390485}
   - {fileID: 1646369016}
-  - {fileID: 519420032}

@@ -26,7 +26,7 @@ MonoBehaviour:
   - what are you saying?
   - well nice to meet you
   EndDialogueLines: 00000000000000000001
-  typingspeed: 0.05
+  typingspeed: 0.09
   choices:
   - dialogueindex: 1
     choices:

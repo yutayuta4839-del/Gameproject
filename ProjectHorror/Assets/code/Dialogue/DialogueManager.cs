@@ -35,9 +35,9 @@ public class DialogueManager : MonoBehaviour
         dialoguePanel.SetActive(show);
     }
 
-    public void giveinfotoNPC(string Charaname)//あとでspriteの変数も追加
+    public void giveinfotoNPC(DialogueData dialoguedata)//あとでspriteの変数も追加string Charaname
     {
-        nameText.text = Charaname;
+        nameText.text = dialoguedata.npcname;
         //あとでスプライトの変更の設定も加ええる
     }
 

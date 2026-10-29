@@ -20,6 +20,9 @@ public class playerManager : MonoBehaviour
     private DialogueManager dialogueManager;
     public Transform Flashlight;
     public static playerManager Instance;
+    bool isMoving = false;
+
+  
 
     [SerializeField] float speed = 5;
     private SpriteRenderer playerrenderer;
@@ -53,7 +56,7 @@ public class playerManager : MonoBehaviour
         moveanimator = GetComponent<Animator>();
 
         dialogueobject = GameObject.Find("DialogueManager");
-        dialogueManager = dialogueobject.GetComponent<DialogueManager>();
+      
 
         moveanimator = GetComponent<Animator>();
         rb2D = GetComponent<Rigidbody2D>();
@@ -61,8 +64,9 @@ public class playerManager : MonoBehaviour
         playerrenderer = GetComponent<SpriteRenderer>();
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
+      
        
         if (PauseController.IsGamePosed)
         {
@@ -83,33 +87,51 @@ public class playerManager : MonoBehaviour
     {
         movement = moveaction.ReadValue<Vector2>();
         rb2D.linearVelocity = movement * speed;
+
+        
         ChangeAnimation();
     }
 
     private void ChangeAnimation()// I change that sprite to animation
     {
 
-        if (movement.x > 0.01f)
+        isMoving = movement.sqrMagnitude > 0.0001f;
+        moveanimator.SetBool("isMoving", isMoving);
+
+        if (!isMoving) return;
+
+        if (Mathf.Abs(movement.x) >= Mathf.Abs(movement.y))
         {
-            playerrenderer.sprite = rightPlayerSprite;
-            RotateLight(90);
+            float x = Mathf.Sign(movement.x);
+            moveanimator.SetFloat("MoveX", x);
+            moveanimator.SetFloat("MoveY", 0f);
+            RotateLight(x > 0 ? 90 : 270);
+
+           
+
+            //if (x > 0)
+            //{
+            //    angle = 90;
+            //}
+            //else
+            //{
+            //    angle = 270;
+            //}
         }
-        else if (movement.x < -0.01f)
+        else
         {
-            playerrenderer.sprite = leftPlayerSprite;
-            RotateLight(270);
+            float y = Mathf.Sign(movement.y);
+            moveanimator.SetFloat("MoveX", 0f);
+            moveanimator.SetFloat("MoveY", y);
+            RotateLight(y > 0 ? 180 : 360);
+
         }
 
-        if (movement.y > 0.01f)
-        {
-            playerrenderer.sprite = backPlayerSprite;
-            RotateLight(180);
-        }
-        else if (movement.y < -0.01f)
-        {
-            playerrenderer.sprite = NormalSprite;
-            RotateLight(360);
-        }
+
+
+
+
+
     }
 
     private void RotateLight(int angle)
