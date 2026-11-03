@@ -1,6 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
-using Cysharp.Threading.Tasks;
+
 using UnityEngine.InputSystem;
 using TMPro;
 using UnityEditor.Animations;

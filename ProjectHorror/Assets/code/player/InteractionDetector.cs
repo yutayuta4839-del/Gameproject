@@ -26,7 +26,8 @@ public class InteractionDetector : MonoBehaviour
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
-    {          //ここで、interactableにcollisionのInteractableComponentを渡している。コンポーネントが見つかったかどうか,見つかったコンポーネントの本体を手に入れるための二つの役割をこなす。
+    {         
+        //ここで、interactableにcollisionのInteractableComponentを渡している。コンポーネントが見つかったかどうか,見つかったコンポーネントの本体を手に入れるための二つの役割をこなす。
         if (collision.TryGetComponent(out ISearchInteractable interactable) && interactable.CanInteract())
         {
 

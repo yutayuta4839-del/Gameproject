@@ -1,4 +1,4 @@
-using Cysharp.Threading.Tasks;
+using System.Collections;
 using System;
 using System.Runtime.CompilerServices;
 using System.Threading;
@@ -28,14 +28,14 @@ public class EnemyFollow : MonoBehaviour
     [Header("waypointinfo")]
     public Transform waypointParent;
     public float waitTime;
-    private bool isloopWayPoint = true;
-    private int currentwaypointindex;
+    public bool isloopWayPoint = true;
+    public int currentwaypointindex;
     private bool iswaiting;
     GameObject playerobj;
 
     public bool islooping { get; private set; } = true;
     Rigidbody2D rb;
-    private Transform[] waypoints;
+    public Transform[] waypoints;
 
     Vector2 playerpos;
     void Start()
@@ -51,7 +51,7 @@ public class EnemyFollow : MonoBehaviour
             waypoints[i] = waypointParent.GetChild(i);
         }
 
-       
+
 
         // 2Dで勝手に回転・傾いてしまうのを防ぐ重要な設定
         agent.updateRotation = false;
@@ -66,6 +66,8 @@ public class EnemyFollow : MonoBehaviour
             playerpos = playerobj.transform.position;
         }
 
+     
+
         if (isChasing)
         {
             // プレイヤーの現在位置を目的地に設定
@@ -73,7 +75,7 @@ public class EnemyFollow : MonoBehaviour
             ChangeAnimation();
 
             float distance = Vector2.Distance(transform.position, playerpos);
-            Debug.Log($"敵の位置: {transform.position} / プレイヤーの位置: {playerpos} / 距離: {distance}");
+            Debug.Log($"敵の位置: {transform.position} / プレイヤーの位置: {playerpos} / 距離: {distance}"); //＄で直接変数名を打ち込める。
 
             if (distance > stopChaseDistance)
             {
@@ -81,14 +83,16 @@ public class EnemyFollow : MonoBehaviour
                 Debug.Log(distance);
                 Debug.Log(stopChaseDistance);
                 StopChasing();
-                Setloop(true);
+                islooping = true;
             }
         }
 
         if (PauseController.IsGamePosed || iswaiting)
         {
-            return;
+            return; //後で変わる　
+
         }
+
         if (islooping)
         {
             MoveToWayPoint();
@@ -103,8 +107,8 @@ public class EnemyFollow : MonoBehaviour
         {
 
             isChasing = true;
-            Setloop(false);
-           
+            islooping = false;
+
         }
 
 
@@ -114,9 +118,9 @@ public class EnemyFollow : MonoBehaviour
     {
         isChasing = false;
         agent.ResetPath(); // 目的地のクリア
-       
 
-        // （お好みで）ここで元の巡回ルートに戻る処理などを入れられます
+
+        //ここで元の巡回ルートに戻る処理などを入れられる。
     }
 
     private void ChangeAnimation()
@@ -157,44 +161,31 @@ public class EnemyFollow : MonoBehaviour
 
         if (Vector2.Distance(transform.position, target.position) < 0.1f)
         {
-            waitonwaypoint(destroyCancellationToken).Forget();
+            StartCoroutine(waitonwaypoint());
         }
     }
 
-    private async UniTaskVoid waitonwaypoint(CancellationToken cancellationToken)
+    private IEnumerator waitonwaypoint()
     {
         iswaiting = true;
-        try
-        {
-            // UniTaskのDelayで待機。cancellationTokenを渡すことで、オブジェクト破棄時などに安全にキャンセルされる
-            await UniTask.Delay(TimeSpan.FromSeconds(waitTime), cancellationToken: cancellationToken);
-            //非同期wait();
 
-            if (isloopWayPoint)
-            {
-                currentwaypointindex = (currentwaypointindex + 1) % waypoints.Length;
-            }
-            else
-            {
-                // ループしない場合：インデックスが最大値を超えないように制限する
-                currentwaypointindex = Mathf.Min(currentwaypointindex + 1, waypoints.Length - 1);
-            }
-        }
-        catch (OperationCanceledException)
-        {
+        yield return new WaitForSeconds(waitTime);
 
-        }
-        finally
+        if (isloopWayPoint)
         {
-            iswaiting = false;
+            currentwaypointindex = (currentwaypointindex + 1) % waypoints.Length;
         }
+        else
+        {
+            // ループしない場合：インデックスが最大値を超えないように制限する
+            currentwaypointindex = Mathf.Min(currentwaypointindex + 1, waypoints.Length - 1);
+        }
+
+        iswaiting = false;
 
     }
 
-    public void Setloop(bool isloop)
-    {
-        islooping = isloop;
-    }
+   
 
     private void RotateSight(Vector2 velocity)
     {
