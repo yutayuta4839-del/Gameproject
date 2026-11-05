@@ -6,27 +6,16 @@ public class playerManager : MonoBehaviour
 {
     public InputActionAsset InputActions;
     private InputAction moveaction;
-    private InputAction clickaction;
-
-    private Vector2 movevalue;
     private Animator moveanimator;
     private Rigidbody2D rb2D;
     private Vector2 movement;
-    public Sprite NormalSprite;
-    public Sprite backPlayerSprite;
-    public Sprite leftPlayerSprite;
-    public Sprite rightPlayerSprite;
-    private GameObject dialogueobject;
-    private DialogueManager dialogueManager;
+
     public Transform Flashlight;
-    public static playerManager Instance;
     bool isMoving = false;
 
-  
-
     [SerializeField] float speed = 5;
-    private SpriteRenderer playerrenderer;
 
+    [SerializeField] float playersanityvalue;
 
     private void OnEnable()
     {
@@ -40,33 +29,15 @@ public class playerManager : MonoBehaviour
 
     private void Awake()
     {
-        if (Instance != null && Instance != this)
-        {
-            // すでに存在する場合は自分を破棄(重複防止)
-            Destroy(gameObject);
-            return;
-        }
-
-        Instance = this;
         DontDestroyOnLoad(gameObject);
-
-        //dialogueManager = DialogueManager.Instance;
 
         moveaction = InputSystem.actions.FindAction("Move");
         moveanimator = GetComponent<Animator>();
-
-        dialogueobject = GameObject.Find("DialogueManager");
-      
-
-        moveanimator = GetComponent<Animator>();
         rb2D = GetComponent<Rigidbody2D>();
-
-        playerrenderer = GetComponent<SpriteRenderer>();
     }
 
     private void FixedUpdate()
     {
-      
        
         if (PauseController.IsGamePosed)
         {
@@ -77,10 +48,6 @@ public class playerManager : MonoBehaviour
         }
 
         playerwalk();
-        //そしてこの下に、速度が0.001以上あるとアニメーションを再開するようにする。magnitudeを使う。
-
-
-
     }
 
     private void playerwalk()
@@ -92,7 +59,7 @@ public class playerManager : MonoBehaviour
         ChangeAnimation();
     }
 
-    private void ChangeAnimation()// I change that sprite to animation
+    private void ChangeAnimation()
     {
 
         isMoving = movement.sqrMagnitude > 0.0001f;
@@ -107,16 +74,6 @@ public class playerManager : MonoBehaviour
             moveanimator.SetFloat("MoveY", 0f);
             RotateLight(x > 0 ? 90 : 270);
 
-           
-
-            //if (x > 0)
-            //{
-            //    angle = 90;
-            //}
-            //else
-            //{
-            //    angle = 270;
-            //}
         }
         else
         {
@@ -126,11 +83,6 @@ public class playerManager : MonoBehaviour
             RotateLight(y > 0 ? 180 : 360);
 
         }
-
-
-
-
-
 
     }
 

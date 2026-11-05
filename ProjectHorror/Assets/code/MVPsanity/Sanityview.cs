@@ -2,15 +2,13 @@ using UnityEngine;
 
 public class Sanityview : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    [SerializeField] Transform player;
+
+
+    //UIに関する更新処理を記述していく。顔の変更、UIの数値の変更。
+
+
+
+
 }
